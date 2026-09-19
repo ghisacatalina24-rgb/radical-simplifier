@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Makes the app fit properly on iPhone -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- iPhone Home Screen app settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Radical">
+    <meta name="theme-color" content="#0b0b0d">
+    <title>Radical</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background:
+                radial-gradient(circle at top, #3b0714 0%, #12060a 35%, #08080a 75%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont,
+                         "SF Pro Display", "Segoe UI", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding:
+                max(20px, env(safe-area-inset-top))
+                20px
+                max(20px, env(safe-area-inset-bottom));
+        }
+        .app {
+            width: 100%;
+            max-width: 430px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .logo {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 14px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #e3184d, #7c0929);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 700;
+            box-shadow:
+                0 10px 35px rgba(227, 24, 77, 0.35);
+        }
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            letter-spacing: -1px;
+        }
+        .subtitle {
+            margin-top: 7px;
+            color: #9d9da5;
+            font-size: 15px;
+        }
+        .card {
+            background: rgba(24, 24, 28, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 26px;
+            padding: 22px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(20px);
+        }
+        label {
+            display: block;
+            color: #aaaab2;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        input {
+            width: 100%;
+            background: #101014;
+            border: 1px solid #303037;
+            border-radius: 17px;
+            padding: 18px 52px 18px 18px;
+            color: white;
+            font-size: 22px;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus {
+            border-color: #d8174b;
+            box-shadow:
+                0 0 0 3px rgba(216, 23, 75, 0.15);
+        }
+        .sqrt-button {
+            position: absolute;
+            right: 9px;
+            top: 9px;
+            width: 43px;
+            height: 43px;
+            border: none;
+            border-radius: 13px;
+            background: #2a0b15;
+            color: #ff3869;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        button {
+            font-family: inherit;
+        }
+        .calculate {
+            width: 100%;
+            margin-top: 16px;
+            border: none;
+            border-radius: 17px;
+            padding: 17px;
+            background: linear-gradient(135deg, #e3184d, #a30d36);
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            box-shadow:
+                0 10px 25px rgba(227, 24, 77, 0.25);
+            transition: transform 0.1s, filter 0.1s;
+        }
+        .calculate:active {
+            transform: scale(0.97);
+            filter: brightness(0.85);
+        }
+        .result {
+            margin-top: 22px;
+            padding: 20px;
+            border-radius: 18px;
+            background: #101014;
+            border: 1px solid #292930;
+            text-align: center;
+        }
+        .result-label {
+            color: #888891;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .answer {
+            min-height: 38px;
+            color: #ff4775;
+            font-size: 30px;
+            font-weight: 700;
+            word-break: break-word;
+        }
+        .decimal {
+            margin-top: 8px;
+            color: #85858e;
+            font-size: 14px;
+        }
+        .examples {
+            margin-top: 22px;
+        }
+        .examples-title {
+            color: #888891;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .example-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .example {
+            border: 1px solid #303037;
+            background: #151519;
+            color: #d7d7dc;
+            padding: 9px 13px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        .example:active {
+            background: #251019;
+            border-color: #a30d36;
+        }
+        .error {
+            color: #ff5c7f;
+            font-size: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #55555e;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="header">
+        <div class="logo">√</div>
+        <h1>Radical</h1>
+        <div class="subtitle">
+            Simplify square roots instantly
+        </div>
+    </div>
+    <div class="card">
+        <label for="number">
+            Enter a number
+        </label>
+        <div class="input-wrapper">
+            <input
+                id="number"
+                type="number"
+                inputmode="numeric"
+                placeholder="e.g. 72"
+                autocomplete="off"
+            >
+            <button
+                class="sqrt-button"
+                onclick="focusInput()"
+                aria-label="Focus input"
+            >
+                √
+            </button>
+        </div>
+        <button
+            class="calculate"
+            onclick="calculate()"
+        >
+            Simplify Radical
+        </button>
+        <div class="result">
+            <div class="result-label">
+                Simplified form
+            </div>
+            <div
+                id="answer"
+                class="answer"
+            >
+                —
+            </div>
+            <div
+                id="decimal"
+                class="decimal"
+            ></div>
+        </div>
+        <div class="examples">
+            <div class="examples-title">
+                Try an example
+            </div>
+            <div class="example-buttons">
+                <button
+                    class="example"
+                    onclick="useExample(12)"
+                >
+                    √12
+                </button>
+                <button
+                    class="example"
+                    onclick="useExample(18)"
+                >
+                    √18
+                </button>
+                <button
+                    class="example"
+                    onclick="useExample(50)"
+                >
+                    √50
+                </button>
+                <button
+                    class="example"
+                    onclick="useExample(72)"
+                >
+                    √72
+                </button>
+                <button
+                    class="example"
+                    onclick="useExample(200)"
+                >
+                    √200
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        Radical Calculator
+    </div>
+</div>
+<script>
+    const input = document.getElementById("number");
+    const answer = document.getElementById("answer");
+    const decimal = document.getElementById("decimal");
+    // Allow pressing Enter to calculate
+    input.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            calculate();
+        }
+    });
+    function focusInput() {
+        input.focus();
+    }
+    function useExample(number) {
+        input.value = number;
+        calculate();
+    }
+    function calculate() {
+        const value = Number(input.value);
+        // Validate input
+        if (!Number.isInteger(value) || value <= 0) {
+            answer.innerHTML =
+                '<span class="error">Enter a positive whole number</span>';
+            decimal.textContent = "";
+            return;
+        }
+        // Find the largest perfect-square factor
+        let outside = 1;
+        let inside = value;
+        for (let i = Math.floor(Math.sqrt(value)); i >= 2; i--) {
+            if (value % (i * i) === 0) {
+                outside = i;
+                inside = value / (i * i);
+                break;
+            }
+        }
+        // If the number is already a perfect square
+        if (inside === 1) {
+            answer.textContent = outside;
+        }
+        // If nothing can be simplified
+        else if (outside === 1) {
+            answer.textContent = `√${inside}`;
+        }
+        // Normal simplified radical
+        else {
+            answer.textContent = `${outside}√${inside}`;
+        }
+        // Decimal approximation
+        const decimalValue = Math.sqrt(value);
+        decimal.textContent =
+            `≈ ${decimalValue.toFixed(6).replace(/0+$/, "").replace(/\.$/, "")}`;
+    }
+</script>
+</body>
+</html>
