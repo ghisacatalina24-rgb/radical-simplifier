@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+>
+<meta name="theme-color" content="#0d080a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Radical">
+<title>Radical</title>
+<style>
+/* =========================================================
+   RADICAL — FINAL iPHONE EDITION
+   ========================================================= */
+:root {
+    /* Cherry Velvet — default */
+    --bg: #0d080a;
+    --bg-top: #16090e;
+    --surface: #171014;
+    --surface-2: #1d1217;
+    --surface-3: #24151b;
+    --input: #110b0e;
+    --border: #382029;
+    --border-light: #4a2632;
+    --text: #fff7f9;
+    --text-2: #d8b8c2;
+    --muted: #97717d;
+    --accent: #e52f61;
+    --accent-bright: #ff416f;
+    --accent-dark: #b91f49;
+    --danger: #ff536d;
+    --success: #65d69d;
+    --shadow:
+        0 20px 60px rgba(0, 0, 0, .42);
+    --radius: 22px;
+}
+/* =========================================================
+   THEMES
+   ========================================================= */
+html.theme-purple {
+    --accent: #9b65ff;
+    --accent-bright: #b786ff;
+    --accent-dark: #7042c8;
+}
+html.theme-blue {
+    --accent: #3e91ff;
+    --accent-bright: #69adff;
+    --accent-dark: #2865ba;
+}
+html.theme-emerald {
+    --accent: #35c98c;
+    --accent-bright: #64e2aa;
+    --accent-dark: #238b62;
+}
+html.theme-mono {
+    --accent: #dedede;
+    --accent-bright: #ffffff;
+    --accent-dark: #a4a4a4;
+    --bg: #080808;
+    --bg-top: #101010;
+    --surface: #141414;
+    --surface-2: #1a1a1a;
+    --surface-3: #222222;
+    --input: #0e0e0e;
+    --border: #2b2b2b;
+    --border-light: #3b3b3b;
+    --text: #f4f4f4;
+    --text-2: #bdbdbd;
+    --muted: #777777;
+}
+html.theme-light {
+    color-scheme: light;
+    --bg: #f5f0f2;
+    --bg-top: #fff7fa;
+    --surface: #ffffff;
+    --surface-2: #faf4f6;
+    --surface-3: #f1e6ea;
+    --input: #faf7f8;
+    --border: #ead8de;
+    --border-light: #dfc8d0;
+    --text: #211217;
+    --text-2: #694b56;
+    --muted: #967681;
+    --accent: #d92759;
+    --accent-bright: #ef426f;
+    --accent-dark: #ae2048;
+    --shadow:
+        0 18px 45px rgba(79, 30, 47, .13);
+}
+/* =========================================================
+   RESET
+   ========================================================= */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+html {
+    background: var(--bg);
+    color-scheme: dark;
+}
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background:
+        radial-gradient(
+            circle at 50% -12%,
+            rgba(229, 47, 97, .12),
+            transparent 34%
+        ),
+        linear-gradient(
+            180deg,
+            var(--bg-top),
+            var(--bg)
+        );
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        system-ui,
+        sans-serif;
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    user-select: none;
+    padding:
+        calc(env(safe-area-inset-top) + 10px)
+        15px
+        calc(env(safe-area-inset-bottom) + 18px);
+}
+button,
+input,
+select {
+    font: inherit;
+}
+button {
+    border: 0;
+    color: inherit;
+}
+.app {
+    width: min(100%, 520px);
+    margin: 0 auto;
+}
+/* =========================================================
+   HEADER
+   ========================================================= */
+.header {
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.brand-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.brand-title h1 {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 850;
+    letter-spacing: -1.2px;
+}
+.brand-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    box-shadow:
+        0 0 13px rgba(255, 65, 111, .55);
+}
+.brand-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 650;
+    letter-spacing: .2px;
+}
+.settings-button {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, .2);
+    color: var(--text-2);
+    font-size: 20px;
+    transition:
+        transform .12s ease,
+        background .18s ease;
+}
+.settings-button:active {
+    transform: scale(.91);
+    background: var(--surface-2);
+}
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+.calculator {
+    padding: 13px;
+    border-radius: 25px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.018),
+            transparent 45%
+        ),
+        var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+/* =========================================================
+   INPUT
+   ========================================================= */
+.input {
+    width: 100%;
+    height: 68px;
+    padding: 0 17px;
+    border-radius: 18px;
+    outline: none;
+    background: var(--input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    caret-color: var(--accent-bright);
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
+}
+.input::placeholder {
+    color: var(--muted);
+    opacity: .7;
+}
+.input:focus {
+    border-color: var(--accent);
+    box-shadow:
+        0 0 0 3px rgba(229, 47, 97, .10);
+}
+/* =========================================================
+   CALCULATE
+   ========================================================= */
+.calculate {
+    width: 100%;
+    height: 53px;
+    margin-top: 10px;
+    border-radius: 17px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent-bright)
+        );
+    color: white;
+    font-size: 15px;
+    font-weight: 850;
+    box-shadow:
+        0 8px 24px rgba(229, 47, 97, .20);
+    transition:
+        transform .1s ease,
+        filter .15s ease;
+}
+.calculate:active {
+    transform: scale(.975);
+    filter: brightness(.88);
+}
+/* =========================================================
+   CUSTOM KEYBOARD
+   ========================================================= */
+.keyboard {
+    display: grid;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+    gap: 7px;
+    margin-top: 10px;
+}
+.key {
+    min-height: 55px;
+    border-radius: 15px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 19px;
+    font-weight: 720;
+    box-shadow:
+        0 2px 0 rgba(0,0,0,.12);
+    transition:
+        transform .08s ease,
+        background .12s ease,
+        border-color .12s ease;
+}
+.key:active {
+    transform: scale(.93);
+    background: var(--surface-3);
+    border-color: var(--border-light);
+}
+.key.operator,
+.key.root {
+    color: var(--accent-bright);
+}
+.key.root {
+    font-size: 23px;
+}
+.key.delete {
+    color: var(--danger);
+}
+/* =========================================================
+   ERROR
+   ========================================================= */
+.error {
+    display: none;
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(255, 83, 109, .07);
+    border: 1px solid rgba(255, 83, 109, .20);
+    color: #ff98a7;
+    font-size: 12px;
+    font-weight: 650;
+}
+.error.visible {
+    display: block;
+    animation:
+        fade-up .18s ease;
+}
+/* =========================================================
+   RESULT
+   ========================================================= */
+.result {
+    display: none;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: var(--input);
+    border: 1px solid var(--border);
+}
+.result.visible {
+    display: block;
+    animation:
+        fade-up .20s ease;
+}
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.result-top {
+    padding: 17px 16px 14px;
+}
+.result-label {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.answer {
+    margin-top: 5px;
+    font-size: 30px;
+    line-height: 1.18;
+    font-weight: 850;
+    letter-spacing: -.6px;
+    overflow-wrap: anywhere;
+}
+.decimal {
+    margin-top: 7px;
+    color: var(--text-2);
+    font-size: 13px;
+}
+.result-actions {
+    display: grid;
+    grid-template-columns:
+        repeat(2, 1fr);
+    gap: 7px;
+    padding:
+        0 11px
+        11px;
+}
+.small-button {
+    height: 40px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 750;
+    transition:
+        transform .08s ease,
+        background .12s ease;
+}
+.small-button:active {
+    transform: scale(.96);
+    background: var(--surface-2);
+}
+/* =========================================================
+   STEPS
+   ========================================================= */
+.steps {
+    border-top: 1px solid var(--border);
+    padding: 14px 16px 16px;
+}
+.steps-title {
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.step {
+    padding: 5px 0;
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.5;
+}
+/* =========================================================
+   SETTINGS SHEET
+   ========================================================= */
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    background: rgba(0, 0, 0, .57);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        opacity .2s ease;
+}
+.overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+.settings {
+    width: 100%;
+    max-width: 520px;
+    max-height: 88dvh;
+    overflow-y: auto;
+    margin: 0 auto;
+    padding:
+        9px 17px
+        calc(env(safe-area-inset-bottom) + 23px);
+    border-radius:
+        26px 26px 0 0;
+    background:
+        linear-gradient(
+            160deg,
+            rgba(255,255,255,.018),
+            transparent 45%
+        ),
+        var(--surface);
+    border: 1px solid var(--border);
+    box-shadow:
+        0 -20px 60px rgba(0,0,0,.35);
+    transform: translateY(100%);
+    transition:
+        transform .27s cubic-bezier(.2,.85,.2,1);
+}
+.overlay.open .settings {
+    transform: translateY(0);
+}
+.drag {
+    width: 38px;
+    height: 4px;
+    margin: 2px auto 18px;
+    border-radius: 99px;
+    background: var(--border-light);
+}
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.settings-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 850;
+    letter-spacing: -.5px;
+}
+.close {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    font-size: 21px;
+}
+.setting-section {
+    margin-bottom: 23px;
+}
+.section-label {
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.setting-row {
+    min-height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 13px;
+    border-radius: 15px;
+    background: var(--input);
+    border: 1px solid var(--border);
+}
+.setting-name {
+    font-size: 14px;
+    font-weight: 750;
+}
+.setting-description {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10px;
+}
+select {
+    min-width: 140px;
+    appearance: none;
+    -webkit-appearance: none;
+    padding:
+        9px 12px;
+    border-radius: 11px;
+    border: 1px solid var(--border);
+    outline: none;
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 750;
+}
+/* =========================================================
+   HISTORY
+   ========================================================= */
+.history {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.history-empty {
+    padding: 17px 5px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+.history-item {
+    width: 100%;
+    padding: 12px;
+    text-align: left;
+    border-radius: 14px;
+    background: var(--input);
+    border: 1px solid var(--border);
+    transition:
+        transform .08s ease,
+        background .12s ease;
+}
+.history-item:active {
+    transform: scale(.98);
+    background: var(--surface-2);
+}
+.history-expression {
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+.history-result {
+    margin-top: 3px;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+.clear-history {
+    width: 100%;
+    height: 46px;
+    margin-top: 8px;
+    border-radius: 14px;
+    background: rgba(255, 83, 109, .06);
+    border: 1px solid rgba(255, 83, 109, .18);
+    color: #ff8395;
+    font-size: 12px;
+    font-weight: 800;
+}
+.clear-history:active {
+    transform: scale(.98);
+}
+/* =========================================================
+   TOAST
+   ========================================================= */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom:
+        calc(env(safe-area-inset-bottom) + 23px);
+    z-index: 300;
+    max-width: calc(100vw - 40px);
+    padding:
+        9px 15px;
+    border-radius: 99px;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 11px;
+    font-weight: 850;
+    opacity: 0;
+    pointer-events: none;
+    transform:
+        translate(-50%, 12px);
+    transition:
+        opacity .16s ease,
+        transform .16s ease;
+}
+.toast.visible {
+    opacity: 1;
+    transform:
+        translate(-50%, 0);
+}
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+@media (max-width: 360px) {
+    body {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .calculator {
+        padding: 11px;
+    }
+    .key {
+        min-height: 51px;
+    }
+    .input {
+        height: 63px;
+        font-size: 20px;
+    }
+}
+/* =========================================================
+   LANDSCAPE iPHONE
+   ========================================================= */
+@media (orientation: landscape)
+       and (max-height: 500px) {
+    body {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .header {
+        height: 43px;
+        margin-bottom: 5px;
+    }
+    .calculator {
+        padding: 9px;
+    }
+    .input {
+        height: 48px;
+    }
+    .calculate {
+        height: 43px;
+        margin-top: 6px;
+    }
+    .keyboard {
+        gap: 5px;
+        margin-top: 6px;
+    }
+    .key {
+        min-height: 40px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="app">
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-title">
+                <h1>Radical</h1>
+                <span class="brand-dot"></span>
+            </div>
+            <div class="brand-subtitle">
+                Simplify it. Understand it.
+            </div>
+        </div>
+        <button
+            class="settings-button"
+            id="settingsButton"
+            aria-label="Settings"
+        >
+            ⚙︎
+        </button>
+    </header>
+    <!-- CALCULATOR -->
+    <main class="calculator">
+        <input
+            class="input"
+            id="expression"
+            type="text"
+            inputmode="none"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            readonly
+            placeholder="e.g. 3√12 + 2√27"
+            aria-label="Expression"
+        >
+        <button
+            class="calculate"
+            id="calculateButton"
+        >
+            Simplify
+        </button>
+        <!-- CUSTOM KEYPAD -->
+        <div class="keyboard">
+            <button class="key" data-value="7">7</button>
+            <button class="key" data-value="8">8</button>
+            <button class="key" data-value="9">9</button>
+            <button class="key root" data-value="√">√</button>
+            <button class="key" data-value="4">4</button>
+            <button class="key" data-value="5">5</button>
+            <button class="key" data-value="6">6</button>
+            <button class="key operator" data-value="+">+</button>
+            <button class="key" data-value="1">1</button>
+            <button class="key" data-value="2">2</button>
+            <button class="key" data-value="3">3</button>
+            <button class="key operator" data-value="-">−</button>
+            <button class="key" data-value="0">0</button>
+            <button class="key" data-value="(">(</button>
+            <button class="key" data-value=")">)</button>
+            <button class="key delete" id="deleteButton">⌫</button>
+        </div>
+        <!-- ERROR -->
+        <div
+            class="error"
+            id="error"
+        ></div>
+        <!-- RESULT -->
+        <section
+            class="result"
+            id="result"
+        >
+            <div class="result-top">
+                <div class="result-label">
+                    Simplified
+                </div>
+                <div
+                    class="answer"
+                    id="answer"
+                ></div>
+                <div
+                    class="decimal"
+                    id="decimal"
+                ></div>
+            </div>
+            <div class="result-actions">
+                <button
+                    class="small-button"
+                    id="copyButton"
+                >
+                    Copy
+                </button>
+                <button
+                    class="small-button"
+                    id="reuseButton"
+                >
+                    Use Again
+                </button>
+            </div>
+            <div class="steps">
+                <div class="steps-title">
+                    Steps
+                </div>
+                <div id="steps"></div>
+            </div>
+        </section>
+    </main>
+</div>
+<!-- SETTINGS -->
+<div
+    class="overlay"
+    id="settingsOverlay"
+>
+    <section class="settings">
+        <div class="drag"></div>
+        <div class="settings-header">
+            <h2 class="settings-title">
+                Settings
+            </h2>
+            <button
+                class="close"
+                id="closeSettings"
+                aria-label="Close settings"
+            >
+                ×
+            </button>
+        </div>
+        <!-- APPEARANCE -->
+        <section class="setting-section">
+            <div class="section-label">
+                Appearance
+            </div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-name">
+                        Theme
+                    </div>
+                    <div class="setting-description">
+                        Customize Radical
+                    </div>
+                </div>
+                <select id="themeSelect">
+                    <option value="cherry">
+                        Cherry Velvet
+                    </option>
+                    <option value="purple">
+                        Dark Purple
+                    </option>
+                    <option value="blue">
+                        Midnight Blue
+                    </option>
+                    <option value="emerald">
+                        Dark Emerald
+                    </option>
+                    <option value="mono">
+                        Monochrome
+                    </option>
+                    <option value="light">
+                        Light
+                    </option>
+                </select>
+            </div>
+        </section>
+        <!-- HISTORY -->
+        <section class="setting-section">
+            <div class="section-label">
+                History
+            </div>
+            <div id="historyContainer"></div>
+            <button
+                class="clear-history"
+                id="clearHistory"
+            >
+                Clear History
+            </button>
+        </section>
+    </section>
+</div>
+<!-- TOAST -->
+<div
+    class="toast"
+    id="toast"
+></div>
+<script>
+"use strict";
+/* =========================================================
+   STORAGE
+   ========================================================= */
+const HISTORY_KEY = "radical-final-history";
+const THEME_KEY = "radical-final-theme";
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+const expressionInput =
+    document.getElementById("expression");
+const calculateButton =
+    document.getElementById("calculateButton");
+const deleteButton =
+    document.getElementById("deleteButton");
+const result =
+    document.getElementById("result");
+const answer =
+    document.getElementById("answer");
+const decimal =
+    document.getElementById("decimal");
+const steps =
+    document.getElementById("steps");
+const error =
+    document.getElementById("error");
+const copyButton =
+    document.getElementById("copyButton");
+const reuseButton =
+    document.getElementById("reuseButton");
+const settingsButton =
+    document.getElementById("settingsButton");
+const closeSettings =
+    document.getElementById("closeSettings");
+const settingsOverlay =
+    document.getElementById("settingsOverlay");
+const themeSelect =
+    document.getElementById("themeSelect");
+const historyContainer =
+    document.getElementById("historyContainer");
+const clearHistory =
+    document.getElementById("clearHistory");
+const toast =
+    document.getElementById("toast");
+let history = [];
+let currentResult = null;
+let toastTimer;
+/* =========================================================
+   HAPTIC FEEDBACK
+   ========================================================= */
+function haptic(duration = 7) {
+    if ("vibrate" in navigator) {
+        try {
+            navigator.vibrate(duration);
+        } catch (_) {}
+    }
+}
+/* =========================================================
+   TOAST
+   ========================================================= */
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("visible");
+    }, 1400);
+}
+/* =========================================================
+   THEME
+   ========================================================= */
+function applyTheme(theme) {
+    document.documentElement.classList.remove(
+        "theme-purple",
+        "theme-blue",
+        "theme-emerald",
+        "theme-mono",
+        "theme-light"
+    );
+    if (theme !== "cherry") {
+        document.documentElement.classList.add(
+            `theme-${theme}`
+        );
+    }
+    themeSelect.value = theme;
+    localStorage.setItem(
+        THEME_KEY,
+        theme
+    );
+}
+function loadTheme() {
+    const saved =
+        localStorage.getItem(THEME_KEY) ||
+        "cherry";
+    applyTheme(saved);
+}
+themeSelect.addEventListener(
+    "change",
+    () => {
+        applyTheme(themeSelect.value);
+        haptic();
+    }
+);
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+function openSettings() {
+    renderHistory();
+    settingsOverlay.classList.add("open");
+    document.body.style.overflow = "hidden";
+    haptic();
+}
+function closeSettingsPanel() {
+    settingsOverlay.classList.remove("open");
+    document.body.style.overflow = "";
+}
+settingsButton.addEventListener(
+    "click",
+    openSettings
+);
+closeSettings.addEventListener(
+    "click",
+    closeSettingsPanel
+);
+settingsOverlay.addEventListener(
+    "click",
+    event => {
+        if (
+            event.target === settingsOverlay
+        ) {
+            closeSettingsPanel();
+        }
+    }
+);
+/* =========================================================
+   INPUT
+   ========================================================= */
+function insertText(text) {
+    haptic();
+    const start =
+        expressionInput.selectionStart ??
+        expressionInput.value.length;
+    const end =
+        expressionInput.selectionEnd ??
+        expressionInput.value.length;
+    expressionInput.value =
+        expressionInput.value.slice(0, start) +
+        text +
+        expressionInput.value.slice(end);
+    const position =
+        start + text.length;
+    expressionInput.focus();
+    try {
+        expressionInput.setSelectionRange(
+            position,
+            position
+        );
+    } catch (_) {}
+    hideError();
+}
+function deleteCharacter() {
+    haptic();
+    const start =
+        expressionInput.selectionStart ??
+        expressionInput.value.length;
+    const end =
+        expressionInput.selectionEnd ??
+        expressionInput.value.length;
+    if (start !== end) {
+        expressionInput.value =
+            expressionInput.value.slice(0, start) +
+            expressionInput.value.slice(end);
+        expressionInput.focus();
+        try {
+            expressionInput.setSelectionRange(
+                start,
+                start
+            );
+        } catch (_) {}
+        return;
+    }
+    if (start <= 0) return;
+    expressionInput.value =
+        expressionInput.value.slice(0, start - 1) +
+        expressionInput.value.slice(start);
+    expressionInput.focus();
+    try {
+        expressionInput.setSelectionRange(
+            start - 1,
+            start - 1
+        );
+    } catch (_) {}
+    hideError();
+}
+document
+    .querySelectorAll("[data-value]")
+    .forEach(button => {
+        button.addEventListener(
+            "click",
+            () => {
+                insertText(
+                    button.dataset.value
+                );
+            }
+        );
+    });
+deleteButton.addEventListener(
+    "click",
+    deleteCharacter
+);
+/* =========================================================
+   MATH
+   ========================================================= */
+function simplifyRadical(n) {
+    if (
+        !Number.isInteger(n) ||
+        n < 0
+    ) {
+        throw new Error(
+            "Radicands must be whole numbers."
+        );
+    }
+    if (n === 0) {
+        return {
+            coefficient: 0,
+            radicand: 1,
+            squareFactor: 0
+        };
+    }
+    let bestSquare = 1;
+    const root =
+        Math.floor(Math.sqrt(n));
+    for (
+        let i = root;
+        i >= 2;
+        i--
+    ) {
+        if (
+            n % (i * i) === 0
+        ) {
+            bestSquare =
+                i * i;
+            break;
+        }
+    }
+    return {
+        coefficient:
+            Math.sqrt(bestSquare),
+        radicand:
+            n / bestSquare,
+        squareFactor:
+            bestSquare
+    };
+}
+function parseTerms(expression) {
+    const terms = [];
+    let current = "";
+    let sign = 1;
+    for (
+        let i = 0;
+        i < expression.length;
+        i++
+    ) {
+        const char =
+            expression[i];
+        if (
+            (char === "+" ||
+             char === "-") &&
+            current !== ""
+        ) {
+            terms.push({
+                sign,
+                value: current
+            });
+            current = "";
+            sign =
+                char === "+"
+                    ? 1
+                    : -1;
+        } else {
+            current += char;
+        }
+    }
+    if (current !== "") {
+        terms.push({
+            sign,
+            value: current
+        });
+    }
+    return terms;
+}
+function parseTerm(raw) {
+    if (!raw) {
+        throw new Error(
+            "Incomplete expression."
+        );
+    }
+    /*
+        Plain number
+    */
+    if (/^\d+$/.test(raw)) {
+        return {
+            type: "constant",
+            coefficient:
+                Number(raw)
+        };
+    }
+    /*
+        Radical
+        √12
+        2√12
+    */
+    const match =
+        raw.match(
+            /^(\d*)√(\d+)$/
+        );
+    if (!match) {
+        throw new Error(
+            `I don't understand "${raw}".`
+        );
+    }
+    const coefficient =
+        match[1] === ""
+            ? 1
+            : Number(match[1]);
+    const radicand =
+        Number(match[2]);
+    const simplified =
+        simplifyRadical(radicand);
+    return {
+        type: "radical",
+        coefficient:
+            coefficient *
+            simplified.coefficient,
+        radicand:
+            simplified.radicand,
+        originalCoefficient:
+            coefficient,
+        originalRadicand:
+            radicand,
+        squareFactor:
+            simplified.squareFactor
+    };
+}
+/* =========================================================
+   CALCULATE
+   ========================================================= */
+function calculate() {
+    const raw =
+        expressionInput.value.trim();
+    if (!raw) {
+        showError(
+            "Enter a radical first."
+        );
+        return;
+    }
+    try {
+        const expression =
+            raw
+                .replace(/\s+/g, "")
+                .replace(/−/g, "-");
+        const terms =
+            parseTerms(expression);
+        if (!terms.length) {
+            throw new Error(
+                "Enter a valid expression."
+            );
+        }
+        const parsed =
+            terms.map(term => ({
+                ...term,
+                parsed:
+                    parseTerm(term.value)
+            }));
+        let constantTotal = 0;
+        const radicalMap =
+            new Map();
+        const stepList = [];
+        /*
+            Simplify each term
+        */
+        for (const item of parsed) {
+            const p =
+                item.parsed;
+            if (
+                p.type ===
+                "constant"
+            ) {
+                constantTotal +=
+                    item.sign *
+                    p.coefficient;
+                continue;
+            }
+            const simplified =
+                simplifyRadical(
+                    p.originalRadicand
+                );
+            const amount =
+                item.sign *
+                p.originalCoefficient *
+                simplified.coefficient;
+            /*
+                √x where x is a perfect square
+            */
+            if (
+                simplified.radicand === 1
+            ) {
+                constantTotal += amount;
+                stepList.push(
+                    `${item.sign < 0 ? "−" : ""}${item.value} → ${item.sign < 0 ? "−" : ""}${Math.abs(amount)}`
+                );
+                continue;
+            }
+            let simplifiedText;
+            if (
+                simplified.coefficient === 1
+            ) {
+                simplifiedText =
+                    `√${simplified.radicand}`;
+            } else {
+                simplifiedText =
+                    `${simplified.coefficient}√${simplified.radicand}`;
+            }
+            stepList.push(
+                `${item.sign < 0 ? "−" : ""}${item.value} → ${item.sign < 0 ? "−" : ""}${simplifiedText}`
+            );
+            const key =
+                simplified.radicand;
+            radicalMap.set(
+                key,
+                (radicalMap.get(key) || 0) +
+                amount
+            );
+        }
+        /*
+            Build answer
+        */
+        const parts = [];
+        if (
+            constantTotal !== 0
+        ) {
+            parts.push(
+                String(constantTotal)
+            );
+        }
+        const radicals =
+            [...radicalMap.entries()]
+                .filter(
+                    ([, coefficient]) =>
+                        coefficient !== 0
+                )
+                .sort(
+                    (a, b) =>
+                        a[0] - b[0]
+                );
+        for (
+            const [radicand, coefficient]
+            of radicals
+        ) {
+            const absolute =
+                Math.abs(coefficient);
+            const radical =
+                absolute === 1
+                    ? `√${radicand}`
+                    : `${absolute}√${radicand}`;
+            if (!parts.length) {
+                parts.push(
+                    coefficient < 0
+                        ? `−${radical}`
+                        : radical
+                );
+            } else {
+                parts.push(
+                    coefficient < 0
+                        ? `− ${radical}`
+                        : `+ ${radical}`
+                );
+            }
+        }
+        if (!parts.length) {
+            parts.push("0");
+        }
+        const finalText =
+            parts.join(" ");
+        /*
+            Decimal
+        */
+        let decimalValue = 0;
+        for (
+            const item of parsed
+        ) {
+            const p =
+                item.parsed;
+            if (
+                p.type ===
+                "constant"
+            ) {
+                decimalValue +=
+                    item.sign *
+                    p.coefficient;
+            } else {
+                decimalValue +=
+                    item.sign *
+                    p.originalCoefficient *
+                    Math.sqrt(
+                        p.originalRadicand
+                    );
+            }
+        }
+        decimalValue =
+            Math.round(
+                decimalValue *
+                100000000
+            ) / 100000000;
+        /*
+            Combining step
+        */
+        if (radicals.length > 1) {
+            const combined =
+                radicals.map(
+                    ([r, c]) => {
+                        const absolute =
+                            Math.abs(c);
+                        const text =
+                            absolute === 1
+                                ? `√${r}`
+                                : `${absolute}√${r}`;
+                        return c < 0
+                            ? `− ${text}`
+                            : `+ ${text}`;
+                    }
+                );
+            stepList.push(
+                `Combine like radicals → ${combined.join(" ")}`
+            );
+        }
+        showResult(
+            finalText,
+            decimalValue,
+            stepList
+        );
+        saveHistory(
+            raw,
+            finalText
+        );
+    } catch (err) {
+        showError(
+            err.message ||
+            "Something went wrong."
+        );
+    }
+}
+/* =========================================================
+   RESULT
+   ========================================================= */
+function showResult(
+    finalText,
+    decimalValue,
+    stepList
+) {
+    currentResult = {
+        answer:
+            finalText,
+        decimal:
+            decimalValue
+    };
+    answer.textContent =
+        finalText;
+    decimal.textContent =
+        Number.isFinite(decimalValue)
+            ? `≈ ${decimalValue}`
+            : "";
+    steps.innerHTML = "";
+    stepList.forEach(text => {
+        const element =
+            document.createElement(
+                "div"
+            );
+        element.className =
+            "step";
+        element.textContent =
+            text;
+        steps.appendChild(
+            element
+        );
+    });
+    result.classList.add(
+        "visible"
+    );
+    hideError();
+    /*
+        Don't aggressively move the
+        user's screen around.
+    */
+    setTimeout(() => {
+        result.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }, 40);
+}
+/* =========================================================
+   ERROR
+   ========================================================= */
+function showError(message) {
+    error.textContent =
+        message;
+    error.classList.add(
+        "visible"
+    );
+    result.classList.remove(
+        "visible"
+    );
+    haptic(12);
+}
+function hideError() {
+    error.classList.remove(
+        "visible"
+    );
+}
+/* =========================================================
+   HISTORY
+   ========================================================= */
+function loadHistory() {
+    try {
+        const saved =
+            localStorage.getItem(
+                HISTORY_KEY
+            );
+        history =
+            saved
+                ? JSON.parse(saved)
+                : [];
+        if (
+            !Array.isArray(history)
+        ) {
+            history = [];
+        }
+    } catch (_) {
+        history = [];
+    }
+}
+function saveHistory(
+    expression,
+    resultText
+) {
+    history.unshift({
+        expression,
+        result:
+            resultText,
+        time:
+            Date.now()
+    });
+    /*
+        Keep only the latest 30.
+        Small storage = fast app.
+    */
+    history =
+        history.slice(0, 30);
+    localStorage.setItem(
+        HISTORY_KEY,
+        JSON.stringify(history)
+    );
+    renderHistory();
+}
+function renderHistory() {
+    if (!history.length) {
+        historyContainer.innerHTML = `
+            <div class="history-empty">
+                Your calculations will appear here.
+            </div>
+        `;
+        return;
+    }
+    const list =
+        document.createElement(
+            "div"
+        );
+    list.className =
+        "history";
+    history.forEach(item => {
+        const button =
+            document.createElement(
+                "button"
+            );
+        button.className =
+            "history-item";
+        const expression =
+            document.createElement(
+                "div"
+            );
+        expression.className =
+            "history-expression";
+        expression.textContent =
+            item.expression;
+        const result =
+            document.createElement(
+                "div"
+            );
+        result.className =
+            "history-result";
+        result.textContent =
+            item.result;
+        button.appendChild(
+            expression
+        );
+        button.appendChild(
+            result
+        );
+        button.addEventListener(
+            "click",
+            () => {
+                expressionInput.value =
+                    item.expression;
+                closeSettingsPanel();
+                calculate();
+                haptic();
+            }
+        );
+        list.appendChild(
+            button
+        );
+    });
+    historyContainer.innerHTML = "";
+    historyContainer.appendChild(
+        list
+    );
+}
+clearHistory.addEventListener(
+    "click",
+    () => {
+        if (!history.length) {
+            showToast(
+                "History is already empty"
+            );
+            return;
+        }
+        history = [];
+        localStorage.removeItem(
+            HISTORY_KEY
+        );
+        renderHistory();
+        haptic();
+        showToast(
+            "History cleared"
+        );
+    }
+);
+/* =========================================================
+   COPY
+   ========================================================= */
+copyButton.addEventListener(
+    "click",
+    async () => {
+        if (!currentResult) {
+            return;
+        }
+        const text =
+            currentResult.answer;
+        try {
+            await navigator
+                .clipboard
+                .writeText(text);
+            haptic();
+            showToast(
+                "Answer copied"
+            );
+        } catch (_) {
+            /*
+                iOS fallback
+            */
+            const textarea =
+                document.createElement(
+                    "textarea"
+                );
+            textarea.value =
+                text;
+            textarea.style.position =
+                "fixed";
+            textarea.style.opacity =
+                "0";
+            document.body.appendChild(
+                textarea
+            );
+            textarea.select();
+            try {
+                document.execCommand(
+                    "copy"
+                );
+                showToast(
+                    "Answer copied"
+                );
+            } catch (_) {
+                showToast(
+                    "Couldn't copy"
+                );
+            }
+            textarea.remove();
+        }
+    }
+);
+/* =========================================================
+   USE AGAIN
+   ========================================================= */
+reuseButton.addEventListener(
+    "click",
+    () => {
+        if (!currentResult) {
+            return;
+        }
+        expressionInput.value =
+            currentResult.answer;
+        result.classList.remove(
+            "visible"
+        );
+        expressionInput.focus();
+        try {
+            expressionInput.setSelectionRange(
+                expressionInput.value.length,
+                expressionInput.value.length
+            );
+        } catch (_) {}
+        haptic();
+    }
+);
+/* =========================================================
+   CALCULATE
+   ========================================================= */
+calculateButton.addEventListener(
+    "click",
+    () => {
+        haptic();
+        calculate();
+    }
+);
+/* =========================================================
+   PHYSICAL KEYBOARD SUPPORT
+   ========================================================= */
+expressionInput.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Enter"
+        ) {
+            event.preventDefault();
+            calculate();
+        }
+        if (
+            event.key === "Backspace"
+        ) {
+            event.preventDefault();
+            deleteCharacter();
+        }
+    }
+);
+/* =========================================================
+   ESCAPE
+   ========================================================= */
+document.addEventListener(
+    "keydown",
+    event => {
+        if (
+            event.key === "Escape" &&
+            settingsOverlay.classList.contains("open")
+        ) {
+            closeSettingsPanel();
+        }
+    }
+);
+/* =========================================================
+   STARTUP
+   ========================================================= */
+loadTheme();
+loadHistory();
+renderHistory();
+</script>
+</body>
+</html>
