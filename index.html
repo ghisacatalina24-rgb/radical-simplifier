@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Radical">
+<meta name="theme-color" content="#08080a">
+<title>Radical</title>
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+:root {
+    --bg: #08080a;
+    --card: rgba(24, 24, 28, 0.88);
+    --input: #101014;
+    --border: #303037;
+    --text: #ffffff;
+    --secondary: #9d9da5;
+    --muted: #5b5b64;
+    --accent: #e3184d;
+    --accent-light: #ff4775;
+    --accent-dark: #a30d36;
+    --accent-bg: #2a0b15;
+    --gradient:
+        radial-gradient(
+            circle at top,
+            #3b0714 0%,
+            #12060a 35%,
+            #08080a 75%
+        );
+}
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--gradient);
+    color: var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        sans-serif;
+    padding:
+        max(20px, env(safe-area-inset-top))
+        18px
+        max(25px, env(safe-area-inset-bottom));
+    transition: 0.3s ease;
+}
+.app {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 20px 0 25px;
+}
+.logo {
+    width: 64px;
+    height: 64px;
+    margin: auto;
+    margin-bottom: 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    font-weight: 700;
+    color: white;
+    background:
+        linear-gradient(
+            145deg,
+            var(--accent),
+            var(--accent-dark)
+        );
+    box-shadow:
+        0 12px 35px rgba(227, 24, 77, 0.25);
+}
+h1 {
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: -1px;
+}
+.subtitle {
+    margin-top: 6px;
+    color: var(--secondary);
+    font-size: 14px;
+}
+/* CARD */
+.card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 26px;
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.45);
+}
+/* INPUT */
+.label {
+    color: var(--secondary);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+.input-container {
+    position: relative;
+}
+input {
+    width: 100%;
+    height: 58px;
+    padding: 0 55px 0 17px;
+    border-radius: 17px;
+    border: 1px solid var(--border);
+    background: var(--input);
+    color: var(--text);
+    font-size: 22px;
+    outline: none;
+    transition: 0.2s;
+}
+input:focus {
+    border-color: var(--accent);
+    box-shadow:
+        0 0 0 3px rgba(227,24,77,0.13);
+}
+.sqrt-button {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 13px;
+    background: var(--accent-bg);
+    color: var(--accent-light);
+    font-size: 23px;
+    font-weight: 600;
+}
+/* KEYBOARD */
+.keyboard {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+.key {
+    height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--input);
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 500;
+    transition: 0.1s;
+}
+.key:active {
+    transform: scale(0.94);
+    background: var(--accent-bg);
+    border-color: var(--accent);
+}
+.key.accent {
+    color: var(--accent-light);
+}
+/* CALCULATE */
+.calculate {
+    width: 100%;
+    margin-top: 12px;
+    height: 54px;
+    border: none;
+    border-radius: 17px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent-dark)
+        );
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow:
+        0 10px 25px rgba(227,24,77,0.2);
+    transition: 0.1s;
+}
+.calculate:active {
+    transform: scale(0.97);
+}
+/* RESULT */
+.result {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 18px;
+    background: var(--input);
+    border: 1px solid var(--border);
+}
+.result-label {
+    color: var(--secondary);
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+.answer {
+    min-height: 40px;
+    color: var(--accent-light);
+    font-size: 30px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+.decimal {
+    margin-top: 7px;
+    color: var(--secondary);
+    font-size: 14px;
+}
+/* STEPS */
+.steps {
+    margin-top: 12px;
+    padding: 16px;
+    border-radius: 17px;
+    background: var(--input);
+    border: 1px solid var(--border);
+}
+.steps-title {
+    color: var(--secondary);
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.step {
+    padding: 6px 0;
+    font-size: 16px;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+.step:not(:last-child) {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+/* HISTORY */
+.section {
+    margin-top: 20px;
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.section-title {
+    color: var(--secondary);
+    font-size: 13px;
+}
+.clear-history {
+    border: none;
+    background: none;
+    color: var(--accent-light);
+    font-size: 13px;
+}
+.history {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--input);
+    color: var(--text);
+    text-align: left;
+}
+.history-expression {
+    overflow-wrap: anywhere;
+    font-size: 14px;
+}
+.history-answer {
+    color: var(--accent-light);
+    font-weight: 600;
+    white-space: nowrap;
+}
+/* THEME */
+.theme-select {
+    width: 100%;
+    height: 50px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--input);
+    color: var(--text);
+    font-size: 15px;
+    outline: none;
+}
+/* ERROR */
+.error {
+    color: var(--accent-light);
+    font-size: 15px;
+}
+/* FOOTER */
+.footer {
+    text-align: center;
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 11px;
+}
+/* MOBILE */
+@media (max-width: 380px) {
+    .card {
+        padding: 16px;
+    }
+    .key {
+        height: 44px;
+    }
+    .answer {
+        font-size: 27px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="app">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            √
+        </div>
+        <h1>Radical</h1>
+        <div class="subtitle">
+            Simplify radicals instantly
+        </div>
+    </div>
+    <!-- MAIN CALCULATOR -->
+    <div class="card">
+        <div class="label">
+            Expression
+        </div>
+        <div class="input-container">
+            <input
+                id="expression"
+                type="text"
+                inputmode="text"
+                autocomplete="off"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="e.g. 3√12 + 2√27"
+            >
+            <button
+                class="sqrt-button"
+                onclick="insertRoot()"
+                aria-label="Insert square root"
+            >
+                √
+            </button>
+        </div>
+        <!-- MINI KEYBOARD -->
+        <div class="keyboard">
+            <button class="key"
+                    onclick="insertText('7')">
+                7
+            </button>
+            <button class="key"
+                    onclick="insertText('8')">
+                8
+            </button>
+            <button class="key"
+                    onclick="insertText('9')">
+                9
+            </button>
+            <button class="key accent"
+                    onclick="insertRoot()">
+                √
+            </button>
+            <button class="key"
+                    onclick="insertText('4')">
+                4
+            </button>
+            <button class="key"
+                    onclick="insertText('5')">
+                5
+            </button>
+            <button class="key"
+                    onclick="insertText('6')">
+                6
+            </button>
+            <button class="key accent"
+                    onclick="insertText(' + ')">
+                +
+            </button>
+            <button class="key"
+                    onclick="insertText('1')">
+                1
+            </button>
+            <button class="key"
+                    onclick="insertText('2')">
+                2
+            </button>
+            <button class="key"
+                    onclick="insertText('3')">
+                3
+            </button>
+            <button class="key accent"
+                    onclick="insertText(' - ')">
+                −
+            </button>
+            <button class="key"
+                    onclick="insertText('0')">
+                0
+            </button>
+            <button class="key"
+                    onclick="insertText('(')">
+                (
+            </button>
+            <button class="key"
+                    onclick="insertText(')')">
+                )
+            </button>
+            <button class="key accent"
+                    onclick="backspace()">
+                ⌫
+            </button>
+        </div>
+        <button
+            class="calculate"
+            onclick="calculate()"
+        >
+            Simplify
+        </button>
+        <!-- RESULT -->
+        <div class="result">
+            <div class="result-label">
+                Simplified form
+            </div>
+            <div
+                id="answer"
+                class="answer"
+            >
+                —
+            </div>
+            <div
+                id="decimal"
+                class="decimal"
+            ></div>
+        </div>
+        <!-- STEPS -->
+        <div
+            id="stepsContainer"
+            class="steps"
+            style="display:none;"
+        >
+            <div class="steps-title">
+                Steps
+            </div>
+            <div id="steps"></div>
+        </div>
+        <!-- THEME -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">
+                    Theme
+                </div>
+            </div>
+            <select
+                id="themeSelect"
+                class="theme-select"
+                onchange="changeTheme()"
+            >
+                <option value="red">
+                    🍒 Cherry Velvet
+                </option>
+                <option value="purple">
+                    💜 Dark Purple
+                </option>
+                <option value="blue">
+                    🌌 Midnight Blue
+                </option>
+                <option value="green">
+                    🌲 Dark Emerald
+                </option>
+                <option value="mono">
+                    ⚫ Monochrome
+                </option>
+                <option value="light">
+                    ☀️ Light
+                </option>
+            </select>
+        </div>
+        <!-- HISTORY -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">
+                    History
+                </div>
+                <button
+                    class="clear-history"
+                    onclick="clearHistory()"
+                >
+                    Clear
+                </button>
+            </div>
+            <div
+                id="history"
+                class="history"
+            ></div>
+        </div>
+    </div>
+    <div class="footer">
+        Radical Calculator
+    </div>
+</div>
+<script>
+/* =========================================================
+   ELEMENTS
+========================================================= */
+const expressionInput =
+    document.getElementById("expression");
+const answerElement =
+    document.getElementById("answer");
+const decimalElement =
+    document.getElementById("decimal");
+const stepsElement =
+    document.getElementById("steps");
+const stepsContainer =
+    document.getElementById("stepsContainer");
+const historyElement =
+    document.getElementById("history");
+const themeSelect =
+    document.getElementById("themeSelect");
+/* =========================================================
+   INPUT
+========================================================= */
+expressionInput.addEventListener(
+    "keydown",
+    function(event) {
+        if (event.key === "Enter") {
+            calculate();
+        }
+    }
+);
+function insertText(text) {
+    const start =
+        expressionInput.selectionStart;
+    const end =
+        expressionInput.selectionEnd;
+    const value =
+        expressionInput.value;
+    expressionInput.value =
+        value.slice(0, start) +
+        text +
+        value.slice(end);
+    expressionInput.focus();
+    const position =
+        start + text.length;
+    expressionInput.setSelectionRange(
+        position,
+        position
+    );
+}
+function insertRoot() {
+    insertText("√");
+}
+function backspace() {
+    const start =
+        expressionInput.selectionStart;
+    const end =
+        expressionInput.selectionEnd;
+    const value =
+        expressionInput.value;
+    if (start !== end) {
+        expressionInput.value =
+            value.slice(0, start) +
+            value.slice(end);
+        expressionInput.setSelectionRange(
+            start,
+            start
+        );
+        return;
+    }
+    if (start > 0) {
+        expressionInput.value =
+            value.slice(0, start - 1) +
+            value.slice(start);
+        expressionInput.setSelectionRange(
+            start - 1,
+            start - 1
+        );
+    }
+}
+/* =========================================================
+   MATH HELPERS
+========================================================= */
+/*
+    Greatest common divisor
+*/
+function gcd(a, b) {
+    a = Math.abs(a);
+    b = Math.abs(b);
+    while (b !== 0) {
+        const temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+/*
+    Simplify √n
+    Example:
+    √72
+    72 = 36 × 2
+    √72 = 6√2
+*/
+function simplifyRadical(n) {
+    if (n === 0) {
+        return {
+            coefficient: 0,
+            radicand: 1
+        };
+    }
+    let outside = 1;
+    let inside = n;
+    for (
+        let i = Math.floor(Math.sqrt(n));
+        i >= 2;
+        i--
+    ) {
+        if (n % (i * i) === 0) {
+            outside = i;
+            inside =
+                n / (i * i);
+            break;
+        }
+    }
+    return {
+        coefficient: outside,
+        radicand: inside
+    };
+}
+/*
+    Format a radical term
+*/
+function formatTerm(coefficient, radicand) {
+    if (coefficient === 0) {
+        return "0";
+    }
+    if (radicand === 1) {
+        return String(coefficient);
+    }
+    if (coefficient === 1) {
+        return `√${radicand}`;
+    }
+    if (coefficient === -1) {
+        return `−√${radicand}`;
+    }
+    return `${coefficient}√${radicand}`;
+}
+/*
+    Parse expressions containing:
+    √72
+    2√12
+    3√12 + 2√27
+    5√8 - √18
+    12
+*/
+function parseExpression(expression) {
+    expression =
+        expression
+            .replace(/\s+/g, "")
+            .replace(/−/g, "-");
+    /*
+        Make subtraction easier to parse.
+    */
+    expression =
+        expression.replace(/-/g, "+-");
+    const pieces =
+        expression.split("+");
+    const terms = [];
+    for (let piece of pieces) {
+        if (!piece) continue;
+        let sign = 1;
+        if (piece.startsWith("-")) {
+            sign = -1;
+            piece = piece.slice(1);
+        }
+        /*
+            Radical term
+        */
+        if (piece.includes("√")) {
+            const parts =
+                piece.split("√");
+            let coefficient =
+                parts[0] === ""
+                    ? 1
+                    : Number(parts[0]);
+            let radicand =
+                Number(parts[1]);
+            if (
+                !Number.isFinite(coefficient) ||
+                !Number.isInteger(coefficient) ||
+                !Number.isInteger(radicand) ||
+                radicand <= 0
+            ) {
+                throw new Error(
+                    "Invalid radical"
+                );
+            }
+            coefficient *= sign;
+            const simplified =
+                simplifyRadical(radicand);
+            terms.push({
+                coefficient:
+                    coefficient *
+                    simplified.coefficient,
+                radicand:
+                    simplified.radicand,
+                originalCoefficient:
+                    coefficient,
+                originalRadicand:
+                    radicand
+            });
+        }
+        /*
+            Normal number
+        */
+        else {
+            const number =
+                Number(piece);
+            if (
+                !Number.isFinite(number) ||
+                !Number.isInteger(number)
+            ) {
+                throw new Error(
+                    "Invalid number"
+                );
+            }
+            terms.push({
+                coefficient:
+                    number * sign,
+                radicand: 1,
+                originalCoefficient:
+                    number * sign,
+                originalRadicand: 1
+            });
+        }
+    }
+    if (terms.length === 0) {
+        throw new Error(
+            "Enter an expression"
+        );
+    }
+    return terms;
+}
+/*
+    Combine like radicals
+*/
+function combineTerms(terms) {
+    const groups = {};
+    for (const term of terms) {
+        if (!groups[term.radicand]) {
+            groups[term.radicand] = 0;
+        }
+        groups[term.radicand] +=
+            term.coefficient;
+    }
+    const result = [];
+    for (const radicand in groups) {
+        const coefficient =
+            groups[radicand];
+        if (coefficient !== 0) {
+            result.push({
+                coefficient,
+                radicand:
+                    Number(radicand)
+            });
+        }
+    }
+    /*
+        Put rational number first.
+    */
+    result.sort(
+        (a, b) =>
+            a.radicand - b.radicand
+    );
+    return result;
+}
+/*
+    Format complete expression
+*/
+function formatExpression(terms) {
+    if (terms.length === 0) {
+        return "0";
+    }
+    let output = "";
+    terms.forEach(
+        (term, index) => {
+            const coefficient =
+                term.coefficient;
+            const radicand =
+                term.radicand;
+            const absolute =
+                Math.abs(coefficient);
+            let formatted;
+            if (radicand === 1) {
+                formatted =
+                    String(absolute);
+            }
+            else if (absolute === 1) {
+                formatted =
+                    `√${radicand}`;
+            }
+            else {
+                formatted =
+                    `${absolute}√${radicand}`;
+            }
+            if (index === 0) {
+                if (coefficient < 0) {
+                    output += "−";
+                }
+                output += formatted;
+            }
+            else {
+                if (coefficient < 0) {
+                    output +=
+                        ` − ${formatted}`;
+                }
+                else {
+                    output +=
+                        ` + ${formatted}`;
+                }
+            }
+        }
+    );
+    return output;
+}
+/* =========================================================
+   CALCULATE
+========================================================= */
+function calculate() {
+    const expression =
+        expressionInput.value.trim();
+    if (!expression) {
+        showError(
+            "Enter a radical expression"
+        );
+        return;
+    }
+    try {
+        const terms =
+            parseExpression(expression);
+        const combined =
+            combineTerms(terms);
+        const result =
+            formatExpression(combined);
+        answerElement.textContent =
+            result;
+        /*
+            Decimal approximation
+        */
+        const decimal =
+            calculateDecimal(terms);
+        decimalElement.textContent =
+            `≈ ${formatDecimal(decimal)}`;
+        /*
+            Steps
+        */
+        createSteps(
+            terms,
+            combined
+        );
+        /*
+            History
+        */
+        saveHistory(
+            expression,
+            result
+        );
+    }
+    catch (error) {
+        showError(
+            "I couldn't understand that expression"
+        );
+    }
+}
+/* =========================================================
+   DECIMAL
+========================================================= */
+function calculateDecimal(terms) {
+    let total = 0;
+    for (const term of terms) {
+        total +=
+            term.originalCoefficient *
+            Math.sqrt(
+                term.originalRadicand
+            );
+    }
+    return total;
+}
+function formatDecimal(number) {
+    if (Math.abs(number) < 0.0000001) {
+        return "0";
+    }
+    return number
+        .toFixed(8)
+        .replace(/0+$/, "")
+        .replace(/\.$/, "");
+}
+/* =========================================================
+   STEPS
+========================================================= */
+function createSteps(
+    terms,
+    combined
+) {
+    stepsElement.innerHTML = "";
+    /*
+        Original
+    */
+    addStep(
+        `Original: ${formatOriginalTerms(terms)}`
+    );
+    /*
+        Simplify each radical
+    */
+    const simplifications = [];
+    for (const term of terms) {
+        if (term.originalRadicand === 1) {
+            continue;
+        }
+        const simplified =
+            simplifyRadical(
+                term.originalRadicand
+            );
+        if (
+            simplified.radicand !==
+            term.originalRadicand
+        ) {
+            const before =
+                formatTerm(
+                    term.originalCoefficient,
+                    term.originalRadicand
+                );
+            const after =
+                formatTerm(
+                    term.coefficient,
+                    term.radicand
+                );
+            simplifications.push(
+                `${before} → ${after}`
+            );
+        }
+    }
+    if (simplifications.length > 0) {
+        addStep(
+            simplifications.join("   ")
+        );
+    }
+    /*
+        Combine like radicals
+    */
+    if (terms.length > 1) {
+        addStep(
+            `Combine like radicals: ${formatExpression(combined)}`
+        );
+    }
+    /*
+        Final answer
+    */
+    addStep(
+        `Answer: ${formatExpression(combined)}`
+    );
+    stepsContainer.style.display =
+        "block";
+}
+function formatOriginalTerms(terms) {
+    let output = "";
+    terms.forEach(
+        (term, index) => {
+            const coefficient =
+                term.originalCoefficient;
+            const radicand =
+                term.originalRadicand;
+            let absolute =
+                Math.abs(coefficient);
+            let text;
+            if (radicand === 1) {
+                text =
+                    String(absolute);
+            }
+            else if (absolute === 1) {
+                text =
+                    `√${radicand}`;
+            }
+            else {
+                text =
+                    `${absolute}√${radicand}`;
+            }
+            if (index === 0) {
+                output +=
+                    coefficient < 0
+                        ? `−${text}`
+                        : text;
+            }
+            else {
+                output +=
+                    coefficient < 0
+                        ? ` − ${text}`
+                        : ` + ${text}`;
+            }
+        }
+    );
+    return output;
+}
+function addStep(text) {
+    const div =
+        document.createElement("div");
+    div.className =
+        "step";
+    div.textContent =
+        text;
+    stepsElement.appendChild(div);
+}
+/* =========================================================
+   ERROR
+========================================================= */
+function showError(message) {
+    answerElement.innerHTML =
+        `<span class="error">${message}</span>`;
+    decimalElement.textContent = "";
+    stepsContainer.style.display =
+        "none";
+}
+/* =========================================================
+   HISTORY
+========================================================= */
+function getHistory() {
+    try {
+        return JSON.parse(
+            localStorage.getItem(
+                "radical-history"
+            )
+        ) || [];
+    }
+    catch {
+        return [];
+    }
+}
+function saveHistory(
+    expression,
+    result
+) {
+    let history =
+        getHistory();
+    history.unshift({
+        expression,
+        result
+    });
+    /*
+        Keep the last 20 calculations.
+    */
+    history =
+        history.slice(0, 20);
+    localStorage.setItem(
+        "radical-history",
+        JSON.stringify(history)
+    );
+    renderHistory();
+}
+function renderHistory() {
+    const history =
+        getHistory();
+    historyElement.innerHTML = "";
+    if (history.length === 0) {
+        const empty =
+            document.createElement("div");
+        empty.style.color =
+            "var(--muted)";
+        empty.style.fontSize =
+            "13px";
+        empty.textContent =
+            "No calculations yet.";
+        historyElement.appendChild(empty);
+        return;
+    }
+    history.forEach(
+        item => {
+            const button =
+                document.createElement("button");
+            button.className =
+                "history-item";
+            const expression =
+                document.createElement("span");
+            expression.className =
+                "history-expression";
+            expression.textContent =
+                item.expression;
+            const result =
+                document.createElement("span");
+            result.className =
+                "history-answer";
+            result.textContent =
+                item.result;
+            button.appendChild(
+                expression
+            );
+            button.appendChild(
+                result
+            );
+            button.onclick =
+                function() {
+                    expressionInput.value =
+                        item.expression;
+                    calculate();
+                };
+            historyElement.appendChild(
+                button
+            );
+        }
+    );
+}
+function clearHistory() {
+    localStorage.removeItem(
+        "radical-history"
+    );
+    renderHistory();
+}
+/* =========================================================
+   THEMES
+========================================================= */
+function setVariables(values) {
+    const root =
+        document.documentElement;
+    for (
+        const [name, value]
+        of Object.entries(values)
+    ) {
+        root.style.setProperty(
+            name,
+            value
+        );
+    }
+}
+function changeTheme() {
+    const theme =
+        themeSelect.value;
+    if (theme === "red") {
+        setVariables({
+            "--card":
+                "rgba(24,24,28,0.88)",
+            "--input":
+                "#101014",
+            "--border":
+                "#303037",
+            "--text":
+                "#ffffff",
+            "--secondary":
+                "#9d9da5",
+            "--muted":
+                "#5b5b64",
+            "--accent":
+                "#e3184d",
+            "--accent-light":
+                "#ff4775",
+            "--accent-dark":
+                "#a30d36",
+            "--accent-bg":
+                "#2a0b15",
+            "--gradient":
+                "radial-gradient(circle at top,#3b0714 0%,#12060a 35%,#08080a 75%)"
+        });
+    }
+    else if (theme === "purple") {
+        setVariables({
+            "--accent":
+                "#9b5cff",
+            "--accent-light":
+                "#b987ff",
+            "--accent-dark":
+                "#6326b5",
+            "--accent-bg":
+                "#211337",
+            "--gradient":
+                "radial-gradient(circle at top,#241044 0%,#10091c 35%,#08080a 75%)"
+        });
+    }
+    else if (theme === "blue") {
+        setVariables({
+            "--accent":
+                "#318cff",
+            "--accent-light":
+                "#65aaff",
+            "--accent-dark":
+                "#1756a3",
+            "--accent-bg":
+                "#0b1d36",
+            "--gradient":
+                "radial-gradient(circle at top,#0c2850 0%,#081321 35%,#08080a 75%)"
+        });
+    }
+    else if (theme === "green") {
+        setVariables({
+            "--accent":
+                "#19b87a",
+            "--accent-light":
+                "#4ee3a8",
+            "--accent-dark":
+                "#08734b",
+            "--accent-bg":
+                "#09251b",
+            "--gradient":
+                "radial-gradient(circle at top,#0a3928 0%,#071812 35%,#08080a 75%)"
+        });
+    }
+    else if (theme === "mono") {
+        setVariables({
+            "--accent":
+                "#ffffff",
+            "--accent-light":
+                "#ffffff",
+            "--accent-dark":
+                "#777777",
+            "--accent-bg":
+                "#252525",
+            "--gradient":
+                "radial-gradient(circle at top,#292929 0%,#111111 40%,#080808 75%)"
+        });
+    }
+    else if (theme === "light") {
+        setVariables({
+            "--card":
+                "rgba(255,255,255,0.88)",
+            "--input":
+                "#f1f1f4",
+            "--border":
+                "#d6d6dc",
+            "--text":
+                "#111111",
+            "--secondary":
+                "#66666f",
+            "--muted":
+                "#888891",
+            "--accent":
+                "#d91548",
+            "--accent-light":
+                "#c20f3e",
+            "--accent-dark":
+                "#9e0b32",
+            "--accent-bg":
+                "#ffe8ef",
+            "--gradient":
+                "linear-gradient(145deg,#f8f8fa,#e9e9ee)"
+        });
+    }
+    localStorage.setItem(
+        "radical-theme",
+        theme
+    );
+}
+/* =========================================================
+   LOAD SAVED SETTINGS
+========================================================= */
+const savedTheme =
+    localStorage.getItem(
+        "radical-theme"
+    );
+if (savedTheme) {
+    themeSelect.value =
+        savedTheme;
+    changeTheme();
+}
+renderHistory();
+</script>
+</body>
+</html>
